@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "DoorSwing.h"
-#include "Components/BoxComponent.h"
+#include "DoorSwingReliance.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/BoxComponent.h"
 
 
 // Sets default values
-ADoorSwing::ADoorSwing()
+ADoorSwingReliance::ADoorSwingReliance()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -17,34 +17,38 @@ ADoorSwing::ADoorSwing()
 
 	Door = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door"));					//Assigning a movable mesh component
 	Door->SetupAttachment(RootComponent);
+	Door->SetWorldTransform(FTransform(FVector(0, -20.32, 0)));
+
+	Door2 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Door2"));				//Assigning a movable mesh component
+	Door2->SetupAttachment(RootComponent);
+	Door2->SetWorldTransform(FTransform(FVector(-228.6, -17.32, 0)));
+	Door2->SetWorldRotation(FRotator(0, -180, 0));
 
 	PressurePlate = CreateDefaultSubobject<UBoxComponent>(TEXT("PressurePlate"));		//Assigning a static box component
 	PressurePlate->SetupAttachment(RootComponent);
 	PressurePlate->SetCollisionProfileName("Trigger");									//Setting its collision preset to be trigger
 	PressurePlate->SetMobility(EComponentMobility::Static);								//Setting its mobility static
-	PressurePlate->InitBoxExtent(FVector(60, 200, 160));								//Setting the box component size
-	PressurePlate->SetWorldTransform(FTransform(FVector(53.35, 0, 160)));				//Setting the box component transform
+	PressurePlate->InitBoxExtent(FVector(120, 200, 160));								//Setting the box component size
+	PressurePlate->SetWorldTransform(FTransform(FVector(-113.5, 0, 160)));				//Setting the box component transform
 
 	Closing = false;
 	Opening = false;
 	isClosed = true;
-	LSwing = true;
 
 	MaxDegree = 0.0f;
 	AddRotation = 0.0f;
-	DoorCurrentRotation = 0.0f;
-
+	Door1CurrentRotation = 0.0f;
 }
 
 // Called when the game starts or when spawned
-void ADoorSwing::BeginPlay()
+void ADoorSwingReliance::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void ADoorSwing::Tick(float DeltaTime)
+void ADoorSwingReliance::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
@@ -52,69 +56,49 @@ void ADoorSwing::Tick(float DeltaTime)
 	{
 		OpenDoor(DeltaTime);
 	}
-
 	if (Closing)
 	{
 		CloseDoor(DeltaTime);
 	}
-
 }
 
-void ADoorSwing::OpenDoor(float dt)
+void ADoorSwingReliance::OpenDoor(float dt)
 {
-	if (LSwing)
-	{
-		AddRotation = -dt * 150;
-		MaxDegree = -90.0f;
-	}
-	else
-	{
-		AddRotation = dt * 150;
-		MaxDegree = -90.0f;
-	}
-	DoorCurrentRotation = Door->RelativeRotation.Yaw;
-	if (FMath::IsNearlyEqual(DoorCurrentRotation, MaxDegree, 1.5f))
+	Door1CurrentRotation = Door->RelativeRotation.Yaw;
+	AddRotation = dt * 120;
+	MaxDegree = 90.0f;
+	if (FMath::IsNearlyEqual(Door1CurrentRotation, MaxDegree, 1.5f))
 	{
 		Closing = false;
 		Opening = false;
 	}
 	else if (Opening)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Opening Rotation is %f"), AddRotation);
-		FRotator NewRotation = FRotator(0.0f, AddRotation, 0.0f);
-		Door->AddRelativeRotation(FQuat(NewRotation));
+		//FRotator NewRotation = FRotator(0.0f, AddRotation, 0.0f);
+		Door->AddRelativeRotation(FQuat(FRotator(0.0f, AddRotation, 0.0f)));
+		Door2->AddRelativeRotation(FQuat(FRotator(0.0f, -AddRotation, 0.0f)));
 	}
 }
 
-void ADoorSwing::CloseDoor(float dt)
+void ADoorSwingReliance::CloseDoor(float dt)
 {
-	if (LSwing)
-	{
-		AddRotation = dt * 150;
-		MaxDegree = 0;
-	}
-	else
-	{
-		AddRotation = -dt * 150;
-		MaxDegree = -180;
-	}
-	DoorCurrentRotation = Door->RelativeRotation.Yaw;
-	if (FMath::IsNearlyEqual(DoorCurrentRotation, MaxDegree, 1.5f))
+	Door1CurrentRotation = Door->RelativeRotation.Yaw;
+	AddRotation = -dt * 120;
+	MaxDegree = 0.0f;
+	if (FMath::IsNearlyEqual(Door1CurrentRotation, MaxDegree, 1.5f))
 	{
 		Closing = false;
 		Opening = false;
 	}
 	else if (Closing)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Closing Rotation is %f"), AddRotation);
-		FRotator NewRotation = FRotator(0.0f, AddRotation, 0.0f);
-		Door->AddRelativeRotation(FQuat(NewRotation));
+		Door->AddRelativeRotation(FQuat(FRotator(0.0f, AddRotation, 0.0f)));
+		Door2->AddRelativeRotation(FQuat(FRotator(0.0f, -AddRotation, 0.0f)));
 	}
 }
 
-void ADoorSwing::ToggleDoor()
+void ADoorSwingReliance::ToggleDoor()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Door is Toggled with Dot P %f"),DotP);
 	if (isClosed)
 	{
 		isClosed = false;

@@ -22,6 +22,9 @@ class DARKHORSEUNREAL_API AMyCharacter : public ACharacter
 	//Creating a variable to hold the current overlapped door actor
 	class ADoorSwing* CurrentDoor;
 
+	//Creating a variable to hold the current overlapped door actor
+	class ADoorSwingReliance* RelDoor;
+
 protected:
 
 	// Called when the game starts or when spawned

@@ -5,6 +5,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "DoorSwing.h"
+#include "DoorSwingReliance.h"
 #include "Engine/World.h"
 
 // Sets default values
@@ -86,6 +87,10 @@ void AMyCharacter::DoorAction()
 	{
 		CurrentDoor->ToggleDoor();
 	}
+	if (RelDoor)
+	{
+		RelDoor->ToggleDoor();
+	}
 }
 
 //Executes when an actor/component begins to overlaps the capsule component
@@ -95,6 +100,10 @@ void AMyCharacter::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor *
 	{
 		CurrentDoor = Cast<ADoorSwing>(OtherActor);
 	}
+	if ((OtherActor != nullptr) && (OtherComp != nullptr) && (OtherActor != this) && (OtherActor->GetClass()->IsChildOf(ADoorSwingReliance::StaticClass())))
+	{
+		RelDoor = Cast<ADoorSwingReliance>(OtherActor);
+	}
 }
 
 //Executes when an actor/component exits overlapping the capsule component
@@ -103,6 +112,10 @@ void AMyCharacter::OnOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * O
 	if ((OtherActor != nullptr) && (OtherComp != nullptr) && (OtherActor != this))
 	{
 		CurrentDoor = NULL;
+	}
+	if ((OtherActor != nullptr) && (OtherComp != nullptr) && (OtherActor != this))
+	{
+		RelDoor = NULL;
 	}
 }
 
