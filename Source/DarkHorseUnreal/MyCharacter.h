@@ -25,6 +25,9 @@ class DARKHORSEUNREAL_API AMyCharacter : public ACharacter
 	//Creating a variable to hold the current overlapped door actor
 	class ADoorSwingReliance* RelDoor;
 
+	//Stores The Raytrace Hit Objects and its related data
+	FHitResult HitResult;
+
 protected:
 
 	// Called when the game starts or when spawned
@@ -49,10 +52,5 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION()
-	virtual void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-	UFUNCTION()
-	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-	
+	void RayTrace(FVector StartLocation, FVector EndLocation, FVector LookDirection);
 };

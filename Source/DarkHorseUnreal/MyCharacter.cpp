@@ -7,6 +7,7 @@
 #include "DoorSwing.h"
 #include "DoorSwingReliance.h"
 #include "Engine/World.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -28,9 +29,6 @@ AMyCharacter::AMyCharacter()
 void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	CollisionCapsule->OnComponentBeginOverlap.AddDynamic(this, &AMyCharacter::OnOverlapBegin);
-	CollisionCapsule->OnComponentEndOverlap.AddDynamic(this, &AMyCharacter::OnOverlapEnd);
-
 }
 
 // Called every frame
@@ -93,28 +91,30 @@ void AMyCharacter::Action()
 	}
 }
 
-//Executes when an actor/component begins to overlaps the capsule component
-void AMyCharacter::OnOverlapBegin(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+void AMyCharacter::RayTrace(FVector StartLocation, FVector EndLocation, FVector LookDirection)
 {
-	if ((OtherActor != nullptr) && (OtherComp != nullptr) && (OtherActor != this) && (OtherActor->GetClass()->IsChildOf(ADoorSwing::StaticClass())))
+	DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 1, 0, 1);
+	//Line Tracing 
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECollisionChannel::ECC_Visibility))
 	{
-		CurrentDoor = Cast<ADoorSwing>(OtherActor);
-	}
-	if ((OtherActor != nullptr) && (OtherComp != nullptr) && (OtherActor != this) && (OtherActor->GetClass()->IsChildOf(ADoorSwingReliance::StaticClass())))
-	{
-		RelDoor = Cast<ADoorSwingReliance>(OtherActor);
-	}
-}
+		//Checks if the line trace hits something
+		if (HitResult.bBlockingHit)
+		{
+			//Checks If the line trace hit the DoorSwing class 
+			if (HitResult.GetActor()->GetClass()->IsChildOf(ADoorSwing::StaticClass()))
+			{
+				CurrentDoor = Cast<ADoorSwing>(HitResult.GetActor());
+			}
+			if (HitResult.GetActor()->GetClass()->IsChildOf(ADoorSwingReliance::StaticClass()))
+			{
+				RelDoor = Cast<ADoorSwingReliance>(HitResult.GetActor());
+			}
+		}
 
-//Executes when an actor/component exits overlapping the capsule component
-void AMyCharacter::OnOverlapEnd(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex)
-{
-	if ((OtherActor != nullptr) && (OtherComp != nullptr) && (OtherActor != this))
+	}
+	else
 	{
 		CurrentDoor = NULL;
-	}
-	if ((OtherActor != nullptr) && (OtherComp != nullptr) && (OtherActor != this))
-	{
 		RelDoor = NULL;
 	}
 }
