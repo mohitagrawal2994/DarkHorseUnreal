@@ -48,7 +48,7 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	check(PlayerInputComponent);
 
 	//Bind the DoorAction Event
-	PlayerInputComponent->BindAction("DoorAction", IE_Pressed, this, &AMyCharacter::DoorAction);
+	PlayerInputComponent->BindAction("Action", IE_Pressed, this, &AMyCharacter::Action);
 
 	// Bind jump events
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
@@ -80,8 +80,8 @@ void AMyCharacter::MoveRight(float Val)
 	}
 }
 
-//Executes When The DoorAction Button is pressed
-void AMyCharacter::DoorAction()
+//Executes When The Action Button is pressed
+void AMyCharacter::Action()
 {
 	if (CurrentDoor)
 	{

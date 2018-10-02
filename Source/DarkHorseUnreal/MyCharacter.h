@@ -37,7 +37,7 @@ protected:
 	void MoveRight(float Val);
 
 	//Handles the input for door closing/opening
-	void DoorAction();
+	void Action();
 
 public:	
 	// Sets default values for this character's properties
