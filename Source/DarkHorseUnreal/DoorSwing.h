@@ -40,15 +40,19 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	//Function that gets called when the door is to be opened
 	UFUNCTION()
 	void OpenDoor(float dt);
 
+	//Function that gets called when door is to be closed
 	UFUNCTION()
 	void CloseDoor(float dt);
 
+	//Function that gets called to toggle opening/closing of door 
 	UFUNCTION()
 	void ToggleDoor();
 
+	//Set to true when door hinge is on left side
 	UPROPERTY(EditDefaultsOnly)
 	bool LSwing;
 

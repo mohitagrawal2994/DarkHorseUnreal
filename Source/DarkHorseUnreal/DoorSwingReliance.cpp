@@ -74,7 +74,6 @@ void ADoorSwingReliance::OpenDoor(float dt)
 	}
 	else if (Opening)
 	{
-		//FRotator NewRotation = FRotator(0.0f, AddRotation, 0.0f);
 		Door->AddRelativeRotation(FQuat(FRotator(0.0f, AddRotation, 0.0f)));
 		Door2->AddRelativeRotation(FQuat(FRotator(0.0f, -AddRotation, 0.0f)));
 	}

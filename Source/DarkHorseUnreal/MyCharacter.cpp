@@ -105,6 +105,7 @@ void AMyCharacter::RayTrace(FVector StartLocation, FVector EndLocation, FVector 
 			{
 				CurrentDoor = Cast<ADoorSwing>(HitResult.GetActor());
 			}
+			//Checks If the line trace hit the DoorSwingReliance class 
 			if (HitResult.GetActor()->GetClass()->IsChildOf(ADoorSwingReliance::StaticClass()))
 			{
 				RelDoor = Cast<ADoorSwingReliance>(HitResult.GetActor());
