@@ -56,4 +56,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	bool LSwing;
 
+	UPROPERTY(EditDefaultsOnly)
+	float OpenAngle;
+
 };

@@ -33,6 +33,7 @@ ADoorSwing::ADoorSwing()
 	MaxDegree = 0.0f;
 	AddRotation = 0.0f;
 	DoorCurrentRotation = 0.0f;
+	OpenAngle = -90.0f;
 
 }
 
@@ -70,7 +71,7 @@ void ADoorSwing::OpenDoor(float dt)
 	{
 		AddRotation = dt * 150;
 	}
-	MaxDegree = -90.0f;
+	MaxDegree = OpenAngle;
 	DoorCurrentRotation = Door->RelativeRotation.Yaw;
 	if (FMath::IsNearlyEqual(DoorCurrentRotation, MaxDegree, 1.5f))
 	{
@@ -111,6 +112,10 @@ void ADoorSwing::CloseDoor(float dt)
 
 void ADoorSwing::ToggleDoor()
 {
+	if (Opening || Closing)
+	{
+		return;
+	}
 	if (isClosed)
 	{
 		isClosed = false;

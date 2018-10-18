@@ -98,6 +98,10 @@ void ADoorSwingReliance::CloseDoor(float dt)
 
 void ADoorSwingReliance::ToggleDoor()
 {
+	if (Opening || Closing)
+	{
+		return;
+	}
 	if (isClosed)
 	{
 		isClosed = false;
