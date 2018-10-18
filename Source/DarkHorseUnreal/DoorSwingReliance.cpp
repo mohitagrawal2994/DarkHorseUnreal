@@ -2,7 +2,6 @@
 
 #include "DoorSwingReliance.h"
 #include "Components/StaticMeshComponent.h"
-#include "Components/BoxComponent.h"
 
 
 // Sets default values
@@ -23,13 +22,6 @@ ADoorSwingReliance::ADoorSwingReliance()
 	Door2->SetupAttachment(RootComponent);
 	Door2->SetWorldTransform(FTransform(FVector(-228.6, -17.32, 0)));
 	Door2->SetWorldRotation(FRotator(0, -180, 0));
-
-	PressurePlate = CreateDefaultSubobject<UBoxComponent>(TEXT("PressurePlate"));		//Assigning a static box component
-	PressurePlate->SetupAttachment(RootComponent);
-	PressurePlate->SetCollisionProfileName("Trigger");									//Setting its collision preset to be trigger
-	PressurePlate->SetMobility(EComponentMobility::Static);								//Setting its mobility static
-	PressurePlate->InitBoxExtent(FVector(120, 200, 160));								//Setting the box component size
-	PressurePlate->SetWorldTransform(FTransform(FVector(-113.5, 0, 160)));				//Setting the box component transform
 
 	Closing = false;
 	Opening = false;

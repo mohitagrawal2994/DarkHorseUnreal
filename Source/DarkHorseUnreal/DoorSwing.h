@@ -17,9 +17,6 @@ class DARKHORSEUNREAL_API ADoorSwing : public AActor
 	UPROPERTY(VisibleDefaultsOnly)					//Creating a pointer of type static mesh
 	class UStaticMeshComponent* Door;
 
-	UPROPERTY(VisibleDefaultsOnly)					//Creating a pointer of type box component
-	class UBoxComponent* PressurePlate;
-
 	bool Opening;
 	bool Closing;
 	bool isClosed;									//Is set to false if the door is open
