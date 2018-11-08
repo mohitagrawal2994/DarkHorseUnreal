@@ -4,10 +4,12 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
-#include "DoorSwing.h"
-#include "DoorSwingReliance.h"
 #include "Engine/World.h"
 #include "DrawDebugHelpers.h"
+#include "DoorSwing.h"
+#include "DoorSwingReliance.h"
+#include "ElevatorCaller.h"
+#include "Elevator.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -89,6 +91,17 @@ void AMyCharacter::Action()
 	{
 		RelDoor->ToggleDoor();
 	}
+	if (EC)
+	{
+		if (Elevator)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("got the elevator"))
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("No Lift Assigned To The Caller"));
+		}
+	}
 }
 
 void AMyCharacter::RayTrace(FVector StartLocation, FVector EndLocation, FVector LookDirection)
@@ -110,6 +123,23 @@ void AMyCharacter::RayTrace(FVector StartLocation, FVector EndLocation, FVector 
 			{
 				RelDoor = Cast<ADoorSwingReliance>(HitResult.GetActor());
 			}
+			//Checks If the line trace hit the ElevatorCaller class 
+			if (HitResult.GetActor()->GetClass()->IsChildOf(AElevatorCaller::StaticClass()))
+			{
+				//Set to true only if we hit the buttons
+				EC = false;
+
+				//Checking if we hit the buttons in the elevator caller
+				if (HitResult.GetComponent()->GetName() == "Button1" || HitResult.GetComponent()->GetName() == "Button2")
+				{
+					EC = true;
+					ElevatorCaller = Cast<AElevatorCaller>(HitResult.GetActor());
+
+					//Get Details From the lift caller like floor number and current lift
+					FloorNumber = ElevatorCaller->GetFloorNo();
+					Elevator = ElevatorCaller->GetCurrentElevator();
+				}
+			}
 		}
 
 	}
@@ -117,6 +147,8 @@ void AMyCharacter::RayTrace(FVector StartLocation, FVector EndLocation, FVector 
 	{
 		CurrentDoor = NULL;
 		RelDoor = NULL;
+		ElevatorCaller = NULL;
+		Elevator = NULL;
 	}
 }
 

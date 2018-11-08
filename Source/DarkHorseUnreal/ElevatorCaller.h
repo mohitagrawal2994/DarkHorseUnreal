@@ -11,9 +11,11 @@ class DARKHORSEUNREAL_API AElevatorCaller : public AActor
 {
 	GENERATED_BODY()
 
+	//The mesh to hold buttons
 	UPROPERTY(VisibleDefaultsOnly, Category = "Mesh")
 	class UStaticMeshComponent* ECaller;
 
+	//Lift caller button
 	UPROPERTY(VisibleDefaultsOnly, Category = "Mesh")
 	class UStaticMeshComponent* Button1;
 
@@ -31,10 +33,26 @@ public:
 	// Sets default values for this actor's properties
 	AElevatorCaller();
 
-	UPROPERTY(EditAnywhere, Category = "FloorNo")
+	//Stores the floor number of the current elevator caller
+	UPROPERTY(EditAnywhere, Category = "Elevator")
 	int FloorNo;
 
+	//Set to true when the caller is placed at the lowest floor
+	UPROPERTY(EditAnywhere, Category = "Elevator")
+	bool OnlyUp;
+
+	//Set to true when the caller is placed at the topmost floor
+	UPROPERTY(EditAnywhere, Category = "Elevator")
+	bool OnlyDown;
+
+	//Stores the elevator which is controlled by the elevator
 	UPROPERTY(EditAnywhere, Category = "Elevator")
 	class AElevator* CurrentElevator;
-	
+
+	//Returns the caller floor number
+	int GetFloorNo();
+
+	//Returns the elevator controlled by the elevator
+	class AElevator* GetCurrentElevator();
+
 };

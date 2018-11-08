@@ -28,6 +28,18 @@ class DARKHORSEUNREAL_API AMyCharacter : public ACharacter
 	//Stores The Raytrace Hit Objects and its related data
 	FHitResult HitResult;
 
+	//Creating a variable to hold the elevator caller actor
+	class AElevator* Elevator;
+
+	//Creating a variable to hold the elevator caller actor
+	class AElevatorCaller* ElevatorCaller;
+
+	//Stores the Floor Number at which the lift is being called
+	int FloorNumber;
+
+	//Set to true if the elevator caller button was hit
+	bool EC;
+
 protected:
 
 	// Called when the game starts or when spawned
