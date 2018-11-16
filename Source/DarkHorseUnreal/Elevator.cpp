@@ -2,6 +2,7 @@
 
 #include "Elevator.h"
 #include "Components/StaticMeshComponent.h"
+#include "Curves/CurveFloat.h"
 
 // Sets default values
 AElevator::AElevator()
@@ -34,63 +35,67 @@ AElevator::AElevator()
 	Button1Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Button1"));	//Setting up the buttons
 	Button1Mesh->SetupAttachment(RootComponent);
 	Button1Mesh->SetWorldTransform(FTransform(FVector(82.8, 115.8, 148.)));
-	Button1Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, -90.0f));
+	Button1Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, 180.0f));
 	Button1Mesh->SetWorldScale3D(FVector(0.8f, 0.8f, 0.8f));
 
 	Button2Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Button2"));
 	Button2Mesh->SetupAttachment(RootComponent);
 	Button2Mesh->SetWorldTransform(FTransform(FVector(75, 115.8, 148)));
-	Button2Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, -90.0f));
+	Button2Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, 180.0f));
 	Button2Mesh->SetWorldScale3D(FVector(0.8f, 0.8f, 0.8f));
 
 	Button3Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Button3"));
 	Button3Mesh->SetupAttachment(RootComponent);
 	Button3Mesh->SetWorldTransform(FTransform(FVector(82.8, 115.8, 142.5)));
-	Button3Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, -90.0f));
+	Button3Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, 180.0f));
 	Button3Mesh->SetWorldScale3D(FVector(0.8f, 0.8f, 0.8f));
 
 	Button4Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Button4"));
 	Button4Mesh->SetupAttachment(RootComponent);
 	Button4Mesh->SetWorldTransform(FTransform(FVector(75, 115.8, 142.5)));
-	Button4Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, -90.0f));
+	Button4Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, 180.0f));
 	Button4Mesh->SetWorldScale3D(FVector(0.8f, 0.8f, 0.8f));
 
 	Button5Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Button5"));
 	Button5Mesh->SetupAttachment(RootComponent);
 	Button5Mesh->SetWorldTransform(FTransform(FVector(82.8, 115.8, 137)));
-	Button5Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, -90.0f));
+	Button5Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, 180.0f));
 	Button5Mesh->SetWorldScale3D(FVector(0.8f, 0.8f, 0.8f));
 
 	Button6Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Button6"));
 	Button6Mesh->SetupAttachment(RootComponent);
 	Button6Mesh->SetWorldTransform(FTransform(FVector(75, 115.8, 137)));
-	Button6Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, -90.0f));
+	Button6Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, 180.0f));
 	Button6Mesh->SetWorldScale3D(FVector(0.8f, 0.8f, 0.8f));
 
 	Button7Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Button7"));
 	Button7Mesh->SetupAttachment(RootComponent);
 	Button7Mesh->SetWorldTransform(FTransform(FVector(82.8, 115.8, 131.5)));
-	Button7Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, -90.0f));
+	Button7Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, 180.0f));
 	Button7Mesh->SetWorldScale3D(FVector(0.8f, 0.8f, 0.8f));
 
 	Button8Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Button8"));
 	Button8Mesh->SetupAttachment(RootComponent);
 	Button8Mesh->SetWorldTransform(FTransform(FVector(75, 115.8, 131.5)));
-	Button8Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, -90.0f));
+	Button8Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, 180.0f));
 	Button8Mesh->SetWorldScale3D(FVector(0.8f, 0.8f, 0.8f));
+
 }
 
 // Called when the game starts or when spawned
 void AElevator::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
 void AElevator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
 }
 
+void AElevator::SetLift()
+{
+}

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/TimelineComponent.h"
 #include "Elevator.generated.h"
 
 UCLASS()
@@ -61,4 +62,5 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void SetLift();
 };

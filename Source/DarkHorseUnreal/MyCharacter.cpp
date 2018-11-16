@@ -96,6 +96,7 @@ void AMyCharacter::Action()
 		if (Elevator)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("got the elevator"))
+			Elevator->SetLift();
 		}
 		else
 		{
