@@ -3,6 +3,7 @@
 #include "Elevator.h"
 #include "Components/StaticMeshComponent.h"
 #include "Curves/CurveFloat.h"
+#include "TimerManager.h"
 
 // Sets default values
 AElevator::AElevator()
@@ -80,6 +81,7 @@ AElevator::AElevator()
 	Button8Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, 180.0f));
 	Button8Mesh->SetWorldScale3D(FVector(0.8f, 0.8f, 0.8f));
 
+	DelayValue = 5.0f;																//Setting a default delay of 5s
 }
 
 // Called when the game starts or when spawned
@@ -87,15 +89,67 @@ void AElevator::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (ElevatorDoorCurve)															//If the curve is found 
+	{
+		FOnTimelineFloat TimelineCallback;											 
+		FOnTimelineEventStatic TimelineCallbackFinished;
+
+		TimelineCallback.BindUFunction(this, FName("DoorTimelineRun"));				//Performing binding
+		TimelineCallbackFinished.BindUFunction(this, FName("DoorTimelineEnd"));
+
+		DoorTimeline.AddInterpFloat(ElevatorDoorCurve, TimelineCallback);
+		DoorTimeline.SetTimelineFinishedFunc(TimelineCallbackFinished);
+	}
 }
 
 // Called every frame
 void AElevator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	DoorTimeline.TickTimeline(DeltaTime);
 	
+}
+
+void AElevator::DoorTimelineRun()
+{
+	//Get the current value of the curve in time
+	CurveFloatValue = ElevatorDoorCurve->GetFloatValue(DoorTimeline.GetPlaybackPosition());
+
+	//Set the translation value of doors
+	Door1Mesh->SetRelativeLocation(FVector(CurveFloatValue, Door1Mesh->RelativeLocation.Y, Door1Mesh->RelativeLocation.Z));
+	Door2Mesh->SetRelativeLocation(FVector(-CurveFloatValue, Door2Mesh->RelativeLocation.Y, Door2Mesh->RelativeLocation.Z));
+
+}
+
+void AElevator::DoorTimelineEnd()
+{
+	//Runs a timer handle so that when the door is open closed after s seconds automatically
+	if (CurveFloatValue == 53.63f)
+	{
+		GetWorldTimerManager().SetTimer(DoorTimerHandle, this, &AElevator::CloseDoors, DelayValue, false);
+	}
+}
+
+void AElevator::OpenDoors()
+{
+	if (ElevatorDoorCurve)
+	{
+		//Calls to the play the timeline from start
+		DoorTimeline.PlayFromStart();
+	}
+}
+
+void AElevator::CloseDoors()
+{
+	GetWorldTimerManager().ClearTimer(DoorTimerHandle);			//Clears the timer handle
+	if (ElevatorDoorCurve)
+	{
+		//Plays the timeline in reverse
+		DoorTimeline.Reverse();
+	}
 }
 
 void AElevator::SetLift()
 {
+	OpenDoors();
 }

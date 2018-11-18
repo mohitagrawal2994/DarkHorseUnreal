@@ -51,6 +51,15 @@ class DARKHORSEUNREAL_API AElevator : public AActor
 	UPROPERTY(VisibleDefaultsOnly, Category = "Mesh")
 	class UStaticMeshComponent* Button8Mesh;
 
+	//Timeline for the doors
+	FTimeline DoorTimeline;
+
+	//Stores the current float value of the curve
+	float CurveFloatValue;
+
+	//Creating a timer handle so that the door closes after certain seconds
+	FTimerHandle DoorTimerHandle;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -62,5 +71,25 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	//Variable to hold the curve float
+	UPROPERTY(EditDefaultsOnly, Category = "Timeline")
+	class UCurveFloat* ElevatorDoorCurve;
+
+	//Variable to hold how much the time the doors stay opened
+	UPROPERTY(EditDefaultsOnly, Category = "DelayTimer")
+	float DelayValue;
+
+	//Function To Open and Close the lift doors
+	void OpenDoors();
+	void CloseDoors();
+
+	//Timeline Functions
+	UFUNCTION()
+	void DoorTimelineRun();
+
+	UFUNCTION()
+	void DoorTimelineEnd();
+
 	void SetLift();
+
 };
