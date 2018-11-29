@@ -5,7 +5,6 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "Engine/World.h"
-#include "DrawDebugHelpers.h"
 #include "DoorSwing.h"
 #include "DoorSwingReliance.h"
 #include "ElevatorCaller.h"
@@ -107,7 +106,6 @@ void AMyCharacter::Action()
 
 void AMyCharacter::RayTrace(FVector StartLocation, FVector EndLocation, FVector LookDirection)
 {
-	DrawDebugLine(GetWorld(), StartLocation, EndLocation, FColor::Red, false, 1, 0, 1);
 	//Line Tracing 
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECollisionChannel::ECC_Visibility))
 	{

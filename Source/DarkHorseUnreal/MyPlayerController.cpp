@@ -8,7 +8,7 @@ AMyPlayerController::AMyPlayerController()
 {
 	//Setting the crosshair positions
 	CrossHairXLocation = 0.5;
-	CrossHairYLocation = 0.333333;
+	CrossHairYLocation = 0.5;
 
 	//Setting the range of line trace
 	LineTraceRange = 300.0f;
