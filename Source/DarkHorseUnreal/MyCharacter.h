@@ -54,6 +54,14 @@ protected:
 	//Handles the input for door closing/opening
 	void Action();
 
+	//Handles input if player is crouching
+	void Crouching();
+	void StopCrouching();
+
+	//Handles input if player is sprinting
+	void Sprinting();
+	void StopSprinting();
+
 public:	
 	// Sets default values for this character's properties
 	AMyCharacter();
@@ -63,6 +71,8 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	float SprintSpeed;
 
 	//Called to check if the ray trace from player hits anything 
 	void RayTrace(FVector StartLocation, FVector EndLocation, FVector LookDirection);

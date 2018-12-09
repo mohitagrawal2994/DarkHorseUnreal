@@ -9,6 +9,8 @@
 #include "DoorSwingReliance.h"
 #include "ElevatorCaller.h"
 #include "Elevator.h"
+#include "GameFramework/PawnMovementComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AMyCharacter::AMyCharacter()
@@ -24,6 +26,11 @@ AMyCharacter::AMyCharacter()
 	//Setting the Collision capsule variable to recieve the ACharacter CapsuleComponent
 	CollisionCapsule = GetCapsuleComponent();
 
+	//Setting Default Sprint speed
+	SprintSpeed = 1.5f;
+
+	//Setting Crouching to true
+	GetMovementComponent()->GetNavAgentPropertiesRef().bCanCrouch = true;
 }
 
 // Called when the game starts or when spawned
@@ -36,7 +43,6 @@ void AMyCharacter::BeginPlay()
 void AMyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
@@ -52,6 +58,14 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 	// Bind jump events
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+
+	//Bind Crouch events
+	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AMyCharacter::Crouching);
+	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &AMyCharacter::StopCrouching);
+
+	//Bind Sprint Events
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AMyCharacter::Sprinting);
+	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AMyCharacter::StopSprinting);
 
 	// Bind movement events
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMyCharacter::MoveForward);
@@ -102,6 +116,26 @@ void AMyCharacter::Action()
 			UE_LOG(LogTemp, Warning, TEXT("No Lift Assigned To The Caller"));
 		}
 	}
+}
+
+void AMyCharacter::Crouching()
+{
+	Crouch();
+}
+
+void AMyCharacter::StopCrouching()
+{
+	UnCrouch();
+}
+
+void AMyCharacter::Sprinting()
+{
+	GetCharacterMovement()->MaxWalkSpeed *= SprintSpeed;
+}
+
+void AMyCharacter::StopSprinting()
+{
+	GetCharacterMovement()->MaxWalkSpeed = 600;
 }
 
 void AMyCharacter::RayTrace(FVector StartLocation, FVector EndLocation, FVector LookDirection)
