@@ -81,7 +81,7 @@ AElevator::AElevator()
 	Button8Mesh->SetWorldRotation(FRotator(0.0f, 0.0f, 180.0f));
 	Button8Mesh->SetWorldScale3D(FVector(0.8f, 0.8f, 0.8f));
 
-	DelayValue = 5.0f;																//Setting a default delay of 5s
+	DelayValue = 5.0f;																//Setting a default delay of 5s	
 }
 
 // Called when the game starts or when spawned
@@ -107,7 +107,6 @@ void AElevator::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	DoorTimeline.TickTimeline(DeltaTime);
-	
 }
 
 void AElevator::DoorTimelineRun()
@@ -149,7 +148,7 @@ void AElevator::CloseDoors()
 	}
 }
 
-void AElevator::SetLift()
+void AElevator::SetLiftCall(bool ElevatorUpCallStatus, int ECFloorNo)
 {
 	OpenDoors();
 }

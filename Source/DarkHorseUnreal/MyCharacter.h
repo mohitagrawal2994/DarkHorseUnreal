@@ -40,6 +40,12 @@ class DARKHORSEUNREAL_API AMyCharacter : public ACharacter
 	//Set to true if the elevator caller button was hit
 	bool EC;
 
+	//Set to true if Player wishes to travel up in elevator
+	bool ElevatorUpCallStatus;
+
+	//Stores the walk speed as set by player in Blueprint
+	float OrgWalkSpeed;
+
 protected:
 
 	// Called when the game starts or when spawned

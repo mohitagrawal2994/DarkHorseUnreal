@@ -90,6 +90,6 @@ public:
 	UFUNCTION()
 	void DoorTimelineEnd();
 
-	void SetLift();
+	void SetLiftCall(bool ElevatorUpCallStatus, int ECFloorNo);
 
 };

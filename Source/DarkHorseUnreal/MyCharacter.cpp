@@ -26,6 +26,12 @@ AMyCharacter::AMyCharacter()
 	//Setting the Collision capsule variable to recieve the ACharacter CapsuleComponent
 	CollisionCapsule = GetCapsuleComponent();
 
+	//Setting ElevatorCallUpStatus
+	ElevatorUpCallStatus = true;
+
+	//Setting Default value for WalkSpeed
+	OrgWalkSpeed = 1.0f;
+
 	//Setting Default Sprint speed
 	SprintSpeed = 1.5f;
 
@@ -37,6 +43,7 @@ AMyCharacter::AMyCharacter()
 void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	OrgWalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
 }
 
 // Called every frame
@@ -108,12 +115,7 @@ void AMyCharacter::Action()
 	{
 		if (Elevator)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("got the elevator"))
-			Elevator->SetLift();
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("No Lift Assigned To The Caller"));
+			Elevator->SetLiftCall(ElevatorUpCallStatus, FloorNumber);
 		}
 	}
 }
@@ -135,7 +137,7 @@ void AMyCharacter::Sprinting()
 
 void AMyCharacter::StopSprinting()
 {
-	GetCharacterMovement()->MaxWalkSpeed = 600;
+	GetCharacterMovement()->MaxWalkSpeed = OrgWalkSpeed;
 }
 
 void AMyCharacter::RayTrace(FVector StartLocation, FVector EndLocation, FVector LookDirection)
@@ -171,6 +173,16 @@ void AMyCharacter::RayTrace(FVector StartLocation, FVector EndLocation, FVector 
 					//Get Details From the lift caller like floor number and current lift
 					FloorNumber = ElevatorCaller->GetFloorNo();
 					Elevator = ElevatorCaller->GetCurrentElevator();
+
+					//Set Elevator Call status to go up or down
+					if (HitResult.GetComponent()->GetName() == "Button1")
+					{
+						ElevatorUpCallStatus = true;
+					}
+					else
+					{
+						ElevatorUpCallStatus = false;
+					}
 				}
 			}
 		}
