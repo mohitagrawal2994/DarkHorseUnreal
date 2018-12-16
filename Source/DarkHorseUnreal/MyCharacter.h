@@ -46,6 +46,9 @@ class DARKHORSEUNREAL_API AMyCharacter : public ACharacter
 	//Stores the walk speed as set by player in Blueprint
 	float OrgWalkSpeed;
 
+	//Handles if the player can climb a ladder
+	bool bClimbLadder;
+
 protected:
 
 	// Called when the game starts or when spawned
@@ -78,8 +81,15 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	//Defines the sprinting speed
+	UPROPERTY(EditDefaultsOnly, Category = "Sprinting")
 	float SprintSpeed;
 
 	//Called to check if the ray trace from player hits anything 
 	void RayTrace(FVector StartLocation, FVector EndLocation, FVector LookDirection);
+
+	//Functions to set the value of CanClimbLadder
+	void CanClimbLadder();
+	void CannotClimbLadder();
+
 };

@@ -37,6 +37,9 @@ AMyCharacter::AMyCharacter()
 
 	//Setting Crouching to true
 	GetMovementComponent()->GetNavAgentPropertiesRef().bCanCrouch = true;
+
+	//Setting can climb ladder to false
+	bClimbLadder = false;
 }
 
 // Called when the game starts or when spawned
@@ -88,7 +91,14 @@ void AMyCharacter::MoveForward(float Val)
 {
 	if (Val != 0.0f)
 	{
-		AddMovementInput(GetActorForwardVector(), Val);
+		if (bClimbLadder)
+		{
+			AddMovementInput(GetActorUpVector(), Val);
+		}
+		else
+		{
+			AddMovementInput(GetActorForwardVector(), Val);
+		}
 	}
 }
 
@@ -96,7 +106,10 @@ void AMyCharacter::MoveRight(float Val)
 {
 	if (Val != 0.0f)
 	{
-		AddMovementInput(GetActorRightVector(), Val);
+		if (!bClimbLadder)
+		{
+			AddMovementInput(GetActorRightVector(), Val);
+		}
 	}
 }
 
@@ -195,5 +208,17 @@ void AMyCharacter::RayTrace(FVector StartLocation, FVector EndLocation, FVector 
 		ElevatorCaller = NULL;
 		Elevator = NULL;
 	}
+}
+
+void AMyCharacter::CanClimbLadder()
+{
+	bClimbLadder = true;
+	GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+}
+
+void AMyCharacter::CannotClimbLadder()
+{
+	bClimbLadder = false;
+	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 }
 
