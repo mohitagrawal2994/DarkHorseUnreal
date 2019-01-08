@@ -2,7 +2,7 @@
 
 #include "MyCharacter.h"
 #include "Camera/CameraComponent.h"
-#include "Components/CapsuleComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "Components/InputComponent.h"
 #include "Engine/World.h"
 #include "DoorSwing.h"
@@ -18,13 +18,12 @@ AMyCharacter::AMyCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	SkeletalMesh = GetMesh();
 	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FPPCamera"));		//Assigning the camera
-	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
-	FirstPersonCameraComponent->RelativeLocation = FVector(-39.56f, 1.75f, 64.f); // Position the camera
+	FirstPersonCameraComponent->SetupAttachment(RootComponent);
+	FirstPersonCameraComponent->RelativeLocation = FVector(0, 21.440f, 147.750f); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
-
-	//Setting the Collision capsule variable to recieve the ACharacter CapsuleComponent
-	CollisionCapsule = GetCapsuleComponent();
+	
 
 	//Setting ElevatorCallUpStatus
 	ElevatorUpCallStatus = true;

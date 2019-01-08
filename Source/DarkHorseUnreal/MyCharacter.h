@@ -15,9 +15,9 @@ class DARKHORSEUNREAL_API AMyCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	class UCameraComponent* FirstPersonCameraComponent;
 
-	//Creating a variable to get the default capsule component
-	UPROPERTY(VisibleAnywhere, Category = "Capsule")
-	class UCapsuleComponent* CollisionCapsule;
+	//Creating a variable to get the default skeletal mesh component
+	UPROPERTY(VisibleAnywhere, Category = "Mesh")
+	class USkeletalMeshComponent* SkeletalMesh;
 
 	//Creating a variable to hold the current overlapped door actor
 	class ADoorSwing* CurrentDoor;
